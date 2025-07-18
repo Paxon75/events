@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="pl" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MTM - Ogrzewanie i Klimatyzacja Imprez | Gwarancja Idealnej Temperatury</title>
+    <meta name="description" content="Zapewniamy profesjonalne ogrzewanie i klimatyzację na eventy, wesela, koncerty i plany zdjęciowe. 20 lat doświadczenia, potężny park maszynowy i zaufanie największych marek.">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0a101f; /* Ciemne tło dla elegancji */
+            color: #e2e8f0; /* Jasny tekst dla kontrastu */
+        }
+        .hero-section {
+            position: relative;
+            overflow: hidden;
+        }
+        #hero-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -1;
+            transform: translateX(-50%) translateY(-50%);
+            background-size: cover;
+        }
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(10, 16, 31, 0.85);
+            z-index: 0;
+        }
+        .cta-button {
+            transition: all 0.3s ease;
+        }
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(249, 115, 22, 0.2);
+        }
+        .secondary-cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.2);
+        }
+        .logo-item {
+            transition: all 0.3s ease;
+            filter: grayscale(100%) opacity(60%);
+        }
+        .logo-item:hover {
+            filter: grayscale(0%) opacity(100%);
+            transform: scale(1.1);
+        }
+        .section-glow {
+            position: relative;
+        }
+        .section-glow::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50%;
+            height: 200px;
+            background: radial-gradient(circle, rgba(249, 115, 22, 0.08) 0%, rgba(249, 115, 22, 0) 70%);
+            z-index: 0;
+            pointer-events: none;
+        }
+        #success-message {
+            display: none;
+        }
+        .prose-custom {
+            color: #e2e8f0;
+        }
+        .prose-custom ul {
+            list-style-position: inside;
+            padding-left: 0;
+        }
+        .prose-custom li {
+            margin-bottom: 0.5rem;
+            padding-left: 1rem;
+            position: relative;
+        }
+        .prose-custom li::before {
+            content: '✓';
+            color: #f97316;
+            position: absolute;
+            left: 0;
+        }
+        /* Animation for fade in */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .animate-fade-in-down {
+            animation: fadeInDown 1s ease-out forwards;
+        }
+        .step-connector {
+            flex-grow: 1;
+            height: 2px;
+            background-color: #334155; /* slate-700 */
+        }
+        /* Popup styles */
+        .popup-overlay {
+            transition: opacity 0.3s ease;
+        }
+        .popup-content {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            transform: scale(0.95);
+            opacity: 0;
+        }
+        .popup-overlay:not(.hidden) .popup-content {
+            transform: scale(1);
+            opacity: 1;
+        }
+        .privacy-content h3 {
+            font-size: 1.125rem; /* text-lg */
+            font-weight: 700;
+            color: #ffffff;
+            margin-top: 1.5rem; /* mt-6 */
+            margin-bottom: 0.5rem; /* mb-2 */
+        }
+        .privacy-content p {
+            margin-bottom: 1rem; /* mb-4 */
+        }
+        .privacy-content ol {
+            list-style-type: lower-alpha;
+            padding-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Nagłówek -->
+    <header id="header" class="bg-slate-900/50 backdrop-blur-sm fixed top-0 left-0 right-0 z-40 transition-all duration-300">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-white" aria-label="Logo Firmy MTM">
+                <svg width="120" height="32" viewBox="0 0 120 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <text x="0" y="24" font-family="Inter, sans-serif" font-size="24" font-weight="bold" fill="white">Firma</text>
+                    <text x="70" y="24" font-family="Inter, sans-serif" font-size="24" font-weight="bold" fill="#f97316">MTM</text>
+                </svg>
+            </a>
+            <nav class="hidden md:flex items-center space-x-8">
+                <a href="#uslugi" class="text-slate-300 hover:text-white transition">Usługi</a>
+                <a href="#doswiadczenie" class="text-slate-300 hover:text-white transition">Doświadczenie</a>
+                <a href="#sprzet" class="text-slate-300 hover:text-white transition">Sprzęt</a>
+                <a href="#kontakt" class="bg-blue-600 text-white px-5 py-2 rounded-md font-semibold hover:bg-blue-700 secondary-cta-button">Szybka Wycena</a>
+            </nav>
+            <button id="mobile-menu-button" class="md:hidden text-white z-50" aria-label="Otwórz menu" aria-expanded="false">
+                <svg id="menu-icon-open" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+                <svg id="menu-icon-close" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden fixed top-0 left-0 w-full h-full bg-slate-900 pt-20 z-40">
+            <a href="#uslugi" class="block py-3 px-6 text-slate-300 hover:bg-slate-800">Usługi</a>
+            <a href="#doswiadczenie" class="block py-3 px-6 text-slate-300 hover:bg-slate-800">Doświadczenie</a>
+            <a href="#sprzet" class="block py-3 px-6 text-slate-300 hover:bg-slate-800">Sprzęt</a>
+            <a href="#kontakt" class="block py-4 px-6 text-center bg-blue-600 text-white font-semibold">Szybka Wycena</a>
+        </div>
+    </header>
+
+    <main>
+        <!-- Sekcja Hero z Wideo -->
+        <section class="hero-section min-h-screen flex items-center pt-24 pb-12">
+            <div class="video-overlay"></div>
+            <video autoplay loop muted playsinline id="hero-video">
+                <source src="https://paxon75.github.io/events/koncert.mp4" type="video/mp4">
+                Twoja przeglądarka nie obsługuje tagu wideo.
+            </video>
+            <div class="container mx-auto px-6 text-center z-10">
+                <h1 class="text-4xl md:text-6xl lg:text-7xl font-black text-white leading-tight mb-4 animate-fade-in-down">
+                    Idealna Temperatura Twojego Wydarzenia. <span class="text-orange-500">Gwarantowana.</span>
+                </h1>
+                <p class="text-lg md:text-xl text-slate-300 max-w-3xl mx-auto mb-8">
+                    Od 20 lat zapewniamy bezkompromisowy komfort termiczny na eventach, weselach i koncertach w całej Polsce. Pogoda jest nieprzewidywalna. My nie.
+                </p>
+                <a href="#kontakt" class="bg-orange-500 text-white font-bold text-lg px-10 py-4 rounded-lg inline-block cta-button">
+                    BEZPŁATNA KONSULTACJA I WYCENA
+                </a>
+            </div>
+        </section>
+
+        <!-- Sekcja O nas / Problem i Rozwiązanie -->
+        <section id="doswiadczenie" class="py-20 md:py-32 bg-slate-900 section-glow">
+            <div class="container mx-auto px-6">
+                <div class="grid md:grid-cols-2 gap-12 items-stretch">
+                    <div class="relative rounded-lg overflow-hidden">
+                         <img src="https://images.unsplash.com/photo-1543142732-835c9b833538?q=80&w=1887&auto=format&fit=crop" alt="Profesjonalny sprzęt na scenie eventowej" class="w-full h-full object-cover">
+                         <div class="absolute -bottom-4 -right-4 bg-blue-600 text-white p-6 rounded-lg shadow-lg max-w-xs sm:max-w-sm">
+                            <p class="font-bold text-xl">"Niezawodność to fundament każdego udanego eventu."</p>
+                            <p class="text-sm mt-2 opacity-80">- CEO, Firma MTM</p>
+                         </div>
+                    </div>
+                    <div class="flex flex-col justify-center">
+                        <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Kim jesteśmy? Partnerem, na którym możesz polegać.</h2>
+                        <p class="text-slate-300 mb-4">
+                            Firma MTM to nie tylko wypożyczalnia sprzętu. Jesteśmy zespołem pasjonatów i inżynierów z ponad 20-letnim doświadczeniem, dla których każdy event to misja. Rozumiemy, jak wiele pracy wkładasz w organizację i jak ważny jest każdy detal. Naszym celem jest zdjęcie z Twoich barków jednego z największych zmartwień – nieprzewidywalnej pogody.
+                        </p>
+                        <p class="text-slate-300 font-semibold">
+                            Przez lata zrealizowaliśmy tysiące zleceń, od kameralnych wesel po największe festiwale. Ta wiedza pozwala nam nie tylko dostarczać sprzęt, ale przede wszystkim doradzać, planować i przewidywać potencjalne problemy. Jesteśmy Twoim technicznym partnerem, który dba o komfort i bezpieczeństwo Twoich gości, pozwalając Ci skupić się na tworzeniu niezapomnianych wrażeń.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sekcja Usługi -->
+        <section id="uslugi" class="py-20 md:py-32">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-2">Rozwiązujemy problemy, zanim się pojawią.</h2>
+                <p class="text-slate-400 max-w-3xl mx-auto mb-16">Każdy event to inne wyzwania. My znamy je wszystkie i mamy na nie gotowe, sprawdzone rozwiązania, które zapewnią Ci spokój ducha.</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                    <!-- Usługa 1 -->
+                    <div class="bg-slate-800/50 p-8 rounded-lg border border-slate-700 text-left hover:border-orange-500 hover:bg-slate-800 transition-all duration-300 flex flex-col">
+                        <div class="mb-4 h-12">
+                            <svg class="w-12 h-12 text-orange-500" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 4.5C12 4.5 15 2 17.5 4.5C20 7 18 10.5 18 10.5C18 10.5 21 12 19 14.5C17 17 14.5 16 14.5 16C14.5 16 16 18.5 14 20.5C12 22.5 11 20 11 20C11 20 6 22 4 18C2 14 7.5 12 7.5 12C7.5 12 4 9.5 6.5 7.5C9 5.5 12 4.5 12 4.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2">Problem: Goście marzną, a chłód psuje atmosferę.</h3>
+                        <p class="text-slate-400 flex-grow">Nasze rozwiązanie: Dyskretne i wydajne systemy grzewcze, które zapewnią idealne ciepło, niezależnie od pogody. Gwarantujemy komfort, który goście zapamiętają.</p>
+                    </div>
+                    <!-- Usługa 2 -->
+                    <div class="bg-slate-800/50 p-8 rounded-lg border border-slate-700 text-left hover:border-blue-500 hover:bg-slate-800 transition-all duration-300 flex flex-col">
+                        <div class="mb-4 h-12">
+                            <svg class="w-12 h-12 text-blue-500" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L12 5M12 19L12 22M22 12L19 12M5 12L2 12M19.07 4.93L16.95 7.05M7.05 16.95L4.93 19.07M19.07 19.07L16.95 16.95M7.05 7.05L4.93 4.93M16 12C16 14.2091 14.2091 16 12 16C9.79086 16 8 14.2091 8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2">Problem: Upał i zaduch odbierają energię.</h3>
+                        <p class="text-slate-400 flex-grow">Nasze rozwiązanie: Zaawansowana klimatyzacja, która skutecznie schłodzi każdą przestrzeń, zapewniając orzeźwienie i energię do zabawy przez całą noc.</p>
+                    </div>
+                    <!-- Usługa 3 -->
+                    <div class="bg-slate-800/50 p-8 rounded-lg border border-slate-700 text-left hover:border-orange-500 hover:bg-slate-800 transition-all duration-300 flex flex-col">
+                        <div class="mb-4 h-12">
+                            <svg class="w-12 h-12 text-orange-500" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 8C4 8 7 6 12 6C17 6 20 8 20 8M4 12C4 12 7 10 12 10C17 10 20 12 20 12M4 16C4 16 7 14 12 14C17 14 20 16 20 16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2">Problem: Wilgoć i brak cyrkulacji w namiocie.</h3>
+                        <p class="text-slate-400 flex-grow">Nasze rozwiązanie: Profesjonalna wentylacja i osuszacze, które eliminują problem wilgoci i zaduchu, dbając o świeże i zdrowe powietrze dla wszystkich uczestników.</p>
+                    </div>
+                    <!-- Usługa 4 -->
+                    <div class="bg-slate-800/50 p-8 rounded-lg border border-slate-700 text-left hover:border-blue-500 hover:bg-slate-800 transition-all duration-300 flex flex-col">
+                        <div class="mb-4 h-12">
+                            <svg class="w-12 h-12 text-blue-500" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 12L11 14L15 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2">Problem: Stres i brak pewności technicznej.</h3>
+                        <p class="text-slate-400 flex-grow">Nasze rozwiązanie: Pełne wsparcie techniczne 24/7. Jesteśmy Twoim partnerem – od doradztwa, przez montaż, po nadzór. Z nami zyskujesz spokój i pewność, że wszystko zadziała.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- NOWA SEKCJA: Jak Działamy? -->
+        <section id="proces" class="py-20 md:py-32 bg-slate-900 section-glow">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-2">Nasz proces – prosta droga do idealnej temperatury</h2>
+                <p class="text-slate-400 max-w-3xl mx-auto mb-16">Współpraca z nami to gwarancja przejrzystości i profesjonalizmu na każdym etapie.</p>
+                <div class="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-0">
+                    <!-- Krok 1 -->
+                    <div class="flex flex-col items-center text-center max-w-xs">
+                        <div class="w-16 h-16 rounded-full bg-orange-500 text-white flex items-center justify-center text-2xl font-bold mb-4">1</div>
+                        <h3 class="text-xl font-bold text-white mb-2">Kontakt i Analiza</h3>
+                        <p class="text-slate-400">Opowiedz nam o swoim evencie. My zadamy kluczowe pytania, by zrozumieć Twoje potrzeby.</p>
+                    </div>
+                    <div class="step-connector hidden md:block"></div>
+                    <!-- Krok 2 -->
+                    <div class="flex flex-col items-center text-center max-w-xs">
+                        <div class="w-16 h-16 rounded-full bg-blue-600 text-white flex items-center justify-center text-2xl font-bold mb-4">2</div>
+                        <h3 class="text-xl font-bold text-white mb-2">Dobór Rozwiązań</h3>
+                        <p class="text-slate-400">Przygotujemy transparentną ofertę z rekomendacją najlepszego sprzętu i planem działania.</p>
+                    </div>
+                    <div class="step-connector hidden md:block"></div>
+                    <!-- Krok 3 -->
+                    <div class="flex flex-col items-center text-center max-w-xs">
+                        <div class="w-16 h-16 rounded-full bg-orange-500 text-white flex items-center justify-center text-2xl font-bold mb-4">3</div>
+                        <h3 class="text-xl font-bold text-white mb-2">Realizacja i Wsparcie</h3>
+                        <p class="text-slate-400">Nasz zespół zajmie się wszystkim: dostawą, montażem i stałym nadzorem technicznym.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sekcja Sprzęt -->
+        <section id="sprzet" class="py-20 md:py-32">
+            <div class="container mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center">
+                <div class="relative">
+                    <img src="https://images.unsplash.com/photo-1621905251936-0870193c79c6?q=80&w=1740&auto=format&fit=crop" alt="Park maszynowy firmy MTM" class="rounded-lg shadow-2xl w-full">
+                </div>
+                <div class="prose-custom">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Nasza Siła? Technologia, Która Daje Ci Spokój.</h2>
+                    <p class="text-slate-400 mb-8">
+                        Inwestujemy wyłącznie w sprzęt renomowanych, światowych marek. To nie tylko kwestia prestiżu, ale przede wszystkim gwarancja niezawodności. Nasz potężny park maszynowy, o mocy liczonej w megawatach, jest zawsze gotowy do działania. Dzięki temu mamy pewność, że poradzimy sobie z każdym, nawet najbardziej nietypowym wyzwaniem, a Ty masz pewność, że nic Cię nie zaskoczy.
+                    </p>
+                    <h3 class="text-xl font-bold text-white mb-4">Nasze zaplecze to między innymi:</h3>
+                    <ul>
+                        <li>Nagrzewnice: Olejowe, gazowe i elektryczne czołowych światowych producentów.</li>
+                        <li>Klimatyzatory: Mobilne, ewaporacyjne oraz potężne agregaty chłodnicze.</li>
+                        <li>Promienniki: Gazowe i elektryczne, idealne do ogrzewania strefowego.</li>
+                        <li>Wentylatory i Osuszacze: Przemysłowa wydajność dla najbardziej wymagających przestrzeni.</li>
+                        <li>Pełne oprzyrządowanie: Elastyczne rękawy do dystrybucji powietrza, termostaty, okablowanie.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Sekcja Zaufali Nam -->
+        <section class="py-20 md:py-32 bg-slate-900 section-glow">
+            <div class="container mx-auto px-6">
+                <h2 class="text-center text-3xl font-bold text-white mb-4">Jakość Potwierdzona przez Liderów.</h2>
+                <p class="text-center text-slate-400 max-w-3xl mx-auto mb-12">Najlepsze marki nie akceptują kompromisów. My również. Dlatego od ponad 20 lat mamy zaszczyt współpracować z liderami branży eventowej, medialnej i motoryzacyjnej. Ich zaufanie to dla nas największe wyróżnienie i najlepszy dowód na to, że powierzasz swoje wydarzenie w ręce sprawdzonych profesjonalistów.</p>
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-8 items-center">
+                    <!-- Logotypy -->
+                    <div class="flex justify-center logo-item"><img src="https://placehold.co/150x75/e2e8f0/0a101f?text=TVN" alt="Logo TVN"></div>
+                    <div class="flex justify-center logo-item"><img src="https://placehold.co/150x75/e2e8f0/0a101f?text=Polsat" alt="Logo Polsat"></div>
+                    <div class="flex justify-center logo-item"><img src="https://placehold.co/150x75/e2e8f0/0a101f?text=TVP" alt="Logo TVP"></div>
+                    <div class="flex justify-center logo-item"><img src="https://placehold.co/150x75/e2e8f0/0a101f?text=Red+Bull" alt="Logo Red Bull"></div>
+                    <div class="flex justify-center logo-item"><img src="https://placehold.co/150x75/e2e8f0/0a101f?text=PGE+Narodowy" alt="Logo PGE Narodowy"></div>
+                    <div class="flex justify-center logo-item"><img src="https://placehold.co/150x75/e2e8f0/0a101f?text=WOŚP" alt="Logo WOŚP"></div>
+                    <div class="flex justify-center logo-item"><img src="https://placehold.co/150x75/e2e8f0/0a101f?text=Audi" alt="Logo Audi"></div>
+                    <div class="flex justify-center logo-item"><img src="https://placehold.co/150x75/e2e8f0/0a101f?text=Mercedes" alt="Logo Mercedes"></div>
+                    <div class="flex justify-center logo-item"><img src="https://placehold.co/150x75/e2e8f0/0a101f?text=BMW" alt="Logo BMW"></div>
+                    <div class="flex justify-center logo-item"><img src="https://placehold.co/150x75/e2e8f0/0a101f?text=Soho+Factory" alt="Logo Soho Factory"></div>
+                    <div class="flex justify-center logo-item"><img src="https://placehold.co/150x75/e2e8f0/0a101f?text=Koneser" alt="Logo Koneser"></div>
+                    <div class="flex justify-center logo-item"><img src="https://placehold.co/150x75/e2e8f0/0a101f?text=Tor+Służewiec" alt="Logo Tor Służewiec"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sekcja Kontakt / CTA -->
+        <section id="kontakt" class="py-20 md:py-32">
+            <div class="container mx-auto px-6">
+                <div class="bg-slate-800 rounded-lg p-8 md:p-12 lg:p-16 grid lg:grid-cols-2 gap-12 items-center border border-slate-700">
+                    <div>
+                        <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Porozmawiajmy o Twoim Wydarzeniu.</h2>
+                        <p class="text-slate-300 mb-6">Przekonałeś się, że dbamy o każdy detal. Pozwól, że zadbamy również o Twoje wydarzenie. Wypełnij formularz, a nasz ekspert skontaktuje się z Tobą, aby przygotować niezobowiązującą, spersonalizowaną ofertę.</p>
+                        <div id="success-message" class="bg-green-500 text-white p-4 rounded-lg">
+                            <strong>Dziękujemy!</strong> Twoje zapytanie zostało wysłane. Skontaktujemy się z Tobą wkrótce.
+                        </div>
+                    </div>
+                    <form id="contact-form" class="space-y-4">
+                        <div>
+                            <label for="name" class="sr-only">Imię i Nazwisko</label>
+                            <input type="text" id="name" name="name" placeholder="Imię i Nazwisko" required class="w-full bg-slate-700 border border-slate-600 rounded-md p-3 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-500">
+                        </div>
+                        <div>
+                            <label for="email" class="sr-only">Adres e-mail</label>
+                            <input type="email" id="email" name="email" placeholder="Adres e-mail" required class="w-full bg-slate-700 border border-slate-600 rounded-md p-3 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-500">
+                        </div>
+                        <div>
+                            <label for="phone" class="sr-only">Numer telefonu</label>
+                            <input type="tel" id="phone" name="phone" placeholder="Numer telefonu" class="w-full bg-slate-700 border border-slate-600 rounded-md p-3 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-500">
+                        </div>
+                        <div>
+                            <label for="message" class="sr-only">Opis wydarzenia</label>
+                            <textarea id="message" name="message" rows="4" placeholder="Opisz krótko swoje wydarzenie (rodzaj, data, lokalizacja, szacowana liczba gości)" required class="w-full bg-slate-700 border border-slate-600 rounded-md p-3 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-500"></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-orange-500 text-white font-bold text-lg py-3 rounded-lg cta-button">
+                            WYŚLIJ ZAPYTANIE I ODBIERZ WYCENĘ
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Stopka -->
+    <footer class="bg-slate-900 border-t border-slate-800">
+        <div class="container mx-auto px-6 py-12 text-center text-slate-400">
+            <div class="grid md:grid-cols-3 gap-8 text-center md:text-left">
+                <div class="md:col-span-1">
+                    <h3 class="font-bold text-white mb-2">MTM Dariusz Seferyński</h3>
+                    <p>ul. Księcia Józefa Poniatowskiego 11</p>
+                    <p>05-230 Kobyłka</p>
+                </div>
+                <div>
+                    <h3 class="font-bold text-white mb-2">Kontakt</h3>
+                    <p><a href="mailto:biuro@firmamtm.pl" class="hover:text-orange-500 transition">biuro@firmamtm.pl</a></p>
+                    <p><a href="tel:+48223531111" class="hover:text-orange-500 transition">+48 22 353 11 11</a></p>
+                    <p><a href="tel:+48223532222" class="hover:text-orange-500 transition">+48 22 353 22 22</a></p>
+                </div>
+                <div>
+                    <h3 class="font-bold text-white mb-2">Informacje</h3>
+                    <p><a href="#" id="privacy-policy-link" class="hover:text-orange-500 transition">Polityka prywatności</a></p>
+                </div>
+            </div>
+            <div class="border-t border-slate-800 mt-8 pt-8">
+                 <p>&copy; <span id="current-year"></span> Firma MTM. Wszelkie prawa zastrzeżone.</p>
+                 <p class="text-sm mt-2">Projekt i wykonanie: Gemini AI</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Popup Polityki Prywatności -->
+    <div id="privacy-popup-overlay" class="popup-overlay hidden fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center p-4">
+        <div class="popup-content bg-slate-800 rounded-lg shadow-2xl p-8 max-w-3xl w-full max-h-[90vh] overflow-y-auto relative">
+            <button id="close-popup-button" class="absolute top-4 right-4 text-slate-400 hover:text-white transition" aria-label="Zamknij">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            <h2 class="text-2xl font-bold text-white mb-6">Polityka Prywatności</h2>
+            <div class="privacy-content text-slate-300 space-y-4">
+                <h3>§ 1. POSTANOWIENIA OGÓLNE</h3>
+                <p>1. Administratorem danych osobowych zbieranych za pośrednictwem Sklepu internetowego www.firmamtm.pl jest MTM DARIUSZ SEFERYŃSKI adres siedziby: ul. Księcia Józefa Poniatowskiego 11, 05-230 Kobyłka, NIP: 9521787616, REGON: 013279667, wpisany do Centralnej Ewidencji i Informacji o Działalności Gospodarczej, adres poczty elektronicznej: biuro@firmamtm.pl, zwany dalej "Administratorem", będący jednocześnie Usługodawcą.</p>
+                <p>2. Dane osobowe Usługobiorcy są przetwarzane zgodnie z ustawą o ochronie danych osobowych z dnia 29 sierpnia 1997 r. (Dz. U. Nr 133, poz. 883 ze zm.) oraz ustawą o świadczeniu usług drogą elektroniczną z dnia 18 lipca 2002 r. (Dz. U. Nr 144, poz. 1204 ze zm.).</p>
+                <p>3. Administrator dokłada szczególnej staranności w celu ochrony interesów osób, których dane dotyczą, a w szczególności zapewnia, że zbierane przez niego dane są:</p>
+                <ol>
+                    <li>przetwarzane zgodnie z prawem,</li>
+                    <li>zbierane dla oznaczonych, zgodnych z prawem celów i niepoddawane dalszemu przetwarzaniu niezgodnemu z tymi celami,</li>
+                    <li>merytorycznie poprawne i adekwatne w stosunku do celów, w jakich są przetwarzane oraz przechowywane w postaci umożliwiającej identyfikację osób, których dotyczą, nie dłużej niż jest to niezbędne do osiągnięcia celu przetwarzania.</li>
+                </ol>
+                <h3>§ 2. RODZAJ PRZETWARZANYCH DANYCH OSOBOWYCH, CEL I ZAKRES ZBIERANIA DANYCH</h3>
+                <p>1. Dane osobowe Usługobiorców, zbierane są w przypadku:</p>
+                <ol>
+                    <li>rejestracji konta w Sklepie, w celu utworzenia indywidualnego konta i zarządzania tym kontem. Podstawa prawna: niezbędność do wykonania umowy o świadczenie usługi Konta (art. 6 ust. 1 lit. b RODO).</li>
+                    <li>składania zamówienia w Sklepie, w celu wykonania umowy sprzedaży. Podstawa prawna: niezbędność do wykonania umowy sprzedaży (art. 6 ust. 1 lit. b RODO).</li>
+                    <li>subskrypcji biuletynu informacyjnego (Newsletter), w celu wykonania umowy, której przedmiotem jest usługa świadczona drogą elektroniczną. Podstawa prawna - zgoda osoby, której dane dotyczą, na wykonanie umowy o świadczenie usługi Newsletter (art. 6 ust. 1 lit. a RODO).</li>
+                    <li>korzystania z systemu zamieszczania opinii, w celu wykonania umowy, której przedmiotem jest usługa świadczona drogą elektroniczną. Podstawa prawna - niezbędność do wykonania umowy o świadczenie usługi (art. 6 ust. 1 lit. b RODO).</li>
+                    <li>korzystania z usługi Formularz kontaktowy w Sklepie w celu wykonania umowy świadczonej drogą elektroniczną. Podstawa prawna: niezbędność do wykonania umowy o świadczenie usługi Formularz kontaktowy (art. 6 ust. 1 lit. b RODO).</li>
+                    <li>korzystania z usługi Zamieść zapytanie w Sklepie w celu wykonania umowy świadczonej drogą elektroniczną. Podstawa prawna: niezbędność do wykonania umowy o świadczenie usługi Zamieść zapytanie (art. 6 ust. 1 lit. b RODO).</li>
+                </ol>
+                <p>2. W przypadku składania zamówienia w Sklepie internetowym, Usługobiorca podaje następujące dane: Imię i nazwisko, Adres, Adres e-mail, Numer telefonu, Nazwa firmy, NIP.</p>
+                <p>3. Podczas rejestracji konta w Sklepie internetowym, Usługobiorca podaje wyłącznie Adres e-mail.</p>
+                <p>4. W przypadku subskrypcji biuletynu informacyjnego (Newsletter), Użytkownik podaje jedynie swój adres e-mail.</p>
+                <p>5. W przypadku korzystania z usługi Formularz kontaktowy, Użytkownik podaje następujące dane: Imię, Adres e-mail.</p>
+                <p>6. W przypadku korzystania z systemu zamieszczania opinii, Użytkownik podaje następujące dane: Imię.</p>
+                <p>7. W przypadku korzystania z usługi Zamieść zapytanie, Użytkownik podaje następujące dane: Imię i nazwisko, Adres e-mail, Numer telefonu.</p>
+                <p>8. Podczas korzystania ze Strony internetowej Sklepu mogą być pobierane dodatkowe informacje, w szczególności: adres IP przypisany do komputera Usługobiorcy lub zewnętrzny adres IP dostawcy Internetu, nazwa domeny, rodzaj przeglądarki, czas dostępu, typ systemu operacyjnego.</p>
+                <p>9. Od Usługobiorców mogą być także gromadzone dane nawigacyjne, w tym informacje o linkach i odnośnikach, w które zdecydują się kliknąć lub innych czynnościach, podejmowanych w naszym Sklepie. Podstawa prawna - prawnie uzasadniony interes (art. 6 ust. 1 lit. f RODO), polegający na ułatwieniu korzystania z usług świadczonych drogą elektroniczną oraz na poprawie funkcjonalności tych usług.</p>
+                <p>10. Podanie danych osobowych przez Usługobiorcę jest dobrowolne.</p>
+                <h3>§ 3. UDOSTĘPNIENIE DANYCH OSOBOWYCH</h3>
+                <p>1. Dane osobowe Usługobiorców przekazywane są dostawcom usług, z których korzysta Administrator przy prowadzeniu Sklepu. Dostawcy usług, którym przekazywane są dane osobowe, w zależności od uzgodnień umownych i okoliczności, albo podlegają poleceniom Administratora co do celów i sposobów przetwarzania tych danych (podmioty przetwarzające), albo samodzielnie określają cele i sposoby ich przetwarzania (administratorzy).</p>
+                <p>2. W przypadku dokonania zakupu w Sklepie, dane osobowe mogą być przekazywane firmie kurierskiej, w celu dostarczenia zamówionych towarów.</p>
+                <p>3. Dane osobowe Usługobiorców są przechowywane wyłącznie na terenie Europejskiego Obszaru Gospodarczego (EOG).</p>
+                <h3>§ 4. PRAWO KONTROLI, DOSTĘPU DO TREŚCI WŁASNYCH DANYCH ORAZ ICH POPRAWIANIA</h3>
+                <p>1. Osoba, której dane dotyczą, ma prawo dostępu do treści swoich danych osobowych oraz prawo ich sprostowania, usunięcia, ograniczenia przetwarzania, prawo do przenoszenia danych, prawo wniesienia sprzeciwu, prawo do cofnięcia zgody w dowolnym momencie bez wpływu na zgodność z prawem przetwarzania, którego dokonano na podstawie zgody przed jej cofnięciem.</p>
+                <p>2. W celu realizacji uprawnień, o których mowa w pkt 1 można wysłać stosowną wiadomość e-mail na adres: biuro@firmamtm.pl.</p>
+                <p>3. W przypadku wystąpienia przez Usługobiorcę z uprawnieniem wynikającym z powyższych praw, Administrator spełnia żądanie albo odmawia jego spełnienia niezwłocznie, nie później jednak niż w ciągu miesiąca po jego otrzymaniu.</p>
+                <p>4. Usługobiorca ma prawo wniesienia skargi do Prezesa Urzędu Ochrony Danych Osobowych w zakresie naruszenia jego prawa do ochrony danych osobowych lub innych praw przyznanych na mocy RODO.</p>
+                <h3>§ 5. PLIKI "COOKIES"</h3>
+                <p>1. Sklep Usługodawcy używa plików „cookies”.</p>
+                <p>2. Instalacja plików „cookies” jest konieczna do prawidłowego świadczenia usług w Sklepie. W plikach „cookies" znajdują się informacje niezbędne do prawidłowego funkcjonowania Sklepu, w szczególności tych wymagających autoryzacji.</p>
+                <p>3. W ramach Sklepu stosowane są trzy rodzaje plików „cookies”: „sesyjne”, „stałe” oraz „analityczne”.</p>
+                <p>4. Użytkownik ma prawo zadecydowania w zakresie dostępu plików „cookies” do swojego komputera poprzez ich uprzedni wybór w oknie swojej przeglądarki.</p>
+                <h3>§ 6. POSTANOWIENIA KOŃCOWE</h3>
+                <p>1. Administrator stosuje środki techniczne i organizacyjne zapewniające ochronę przetwarzanych danych osobowych odpowiednią do zagrożeń oraz kategorii danych objętych ochroną, a w szczególności zabezpiecza dane przed ich udostępnieniem osobom nieupoważnionym, zabraniem przez osobę nieuprawnioną, przetwarzaniem z naruszeniem obowiązujących przepisów oraz zmianą, utratą, uszkodzeniem lub zniszczeniem.</p>
+                <p>2. Usługodawca udostępnia odpowiednie środki techniczne zapobiegające pozyskiwaniu i modyfikowaniu przez osoby nieuprawnione, danych osobowych przesyłanych drogą elektroniczną.</p>
+                <p>3. W sprawach nieuregulowanych niniejszą Polityką prywatności stosuje się odpowiednio przepisy RODO oraz inne właściwe przepisy prawa polskiego.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            try {
+                // --- Logika menu mobilnego ---
+                const mobileMenuButton = document.getElementById('mobile-menu-button');
+                const mobileMenu = document.getElementById('mobile-menu');
+                const openIcon = document.getElementById('menu-icon-open');
+                const closeIcon = document.getElementById('menu-icon-close');
+                
+                if (mobileMenuButton && mobileMenu && openIcon && closeIcon) {
+                    const toggleMenu = () => {
+                        const isExpanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';
+                        mobileMenu.classList.toggle('hidden');
+                        openIcon.classList.toggle('hidden');
+                        closeIcon.classList.toggle('hidden');
+                        mobileMenuButton.setAttribute('aria-expanded', String(!isExpanded));
+                    };
+
+                    mobileMenuButton.addEventListener('click', toggleMenu);
+
+                    mobileMenu.querySelectorAll('a').forEach(link => {
+                        link.addEventListener('click', () => {
+                            if (!mobileMenu.classList.contains('hidden')) {
+                                toggleMenu();
+                            }
+                        });
+                    });
+                }
+
+                // --- Płynne przewijanie do sekcji ---
+                document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                    anchor.addEventListener('click', function (e) {
+                        const targetId = this.getAttribute('href');
+                        // FIX: Only prevent default and scroll if href is a valid selector for an element on the page
+                        if (targetId && targetId.length > 1) {
+                            e.preventDefault();
+                            const targetElement = document.querySelector(targetId);
+                            if (targetElement) {
+                                targetElement.scrollIntoView({
+                                    behavior: 'smooth'
+                                });
+                            }
+                        }
+                    });
+                });
+
+                // --- Cień nagłówka podczas przewijania ---
+                const header = document.getElementById('header');
+                if (header) {
+                    window.addEventListener('scroll', () => {
+                        header.classList.toggle('shadow-lg', window.scrollY > 50);
+                    });
+                }
+
+                // --- Aktualny rok w stopce ---
+                const currentYearEl = document.getElementById('current-year');
+                if (currentYearEl) {
+                    currentYearEl.textContent = new Date().getFullYear();
+                }
+
+                // --- Obsługa formularza kontaktowego ---
+                const contactForm = document.getElementById('contact-form');
+                const successMessage = document.getElementById('success-message');
+                if (contactForm && successMessage) {
+                    contactForm.addEventListener('submit', function(e) {
+                        e.preventDefault();
+                        contactForm.style.display = 'none';
+                        successMessage.style.display = 'block';
+                    });
+                }
+
+                // --- Logika Popupu Polityki Prywatności ---
+                const privacyLink = document.getElementById('privacy-policy-link');
+                const popupOverlay = document.getElementById('privacy-popup-overlay');
+                const closePopupButton = document.getElementById('close-popup-button');
+
+                if (privacyLink && popupOverlay && closePopupButton) {
+                    privacyLink.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        popupOverlay.classList.remove('hidden');
+                    });
+
+                    const closePopup = () => {
+                        popupOverlay.classList.add('hidden');
+                    };
+
+                    closePopupButton.addEventListener('click', closePopup);
+                    popupOverlay.addEventListener('click', (e) => {
+                        if (e.target === popupOverlay) {
+                            closePopup();
+                        }
+                    });
+                }
+
+            } catch (error) {
+                console.error("Wystąpił błąd podczas inicjalizacji strony:", error);
+            }
+        });
+    </script>
+</body>
+</html>
