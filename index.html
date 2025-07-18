@@ -156,11 +156,8 @@
     <!-- Nagłówek -->
     <header id="header" class="bg-slate-900/50 backdrop-blur-sm fixed top-0 left-0 right-0 z-50 transition-all duration-300">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#" class="text-white" aria-label="Logo Firmy MTM">
-                <svg width="120" height="32" viewBox="0 0 120 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <text x="0" y="24" font-family="Inter, sans-serif" font-size="24" font-weight="bold" fill="white">Firma</text>
-                    <text x="70" y="24" font-family="Inter, sans-serif" font-size="24" font-weight="bold" fill="#f97316">MTM</text>
-                </svg>
+            <a href="https://firmamtm.pl" target="_blank" rel="noopener noreferrer" class="text-white" aria-label="Logo Firmy MTM">
+                <img src="https://paxon75.github.io/events/logo_mtm_white.png" alt="Logo Firmy MTM" class="h-8 w-auto">
             </a>
             <nav class="hidden md:flex items-center space-x-8">
                 <a href="#uslugi" class="text-slate-300 hover:text-white transition">Usługi</a>
@@ -380,6 +377,12 @@
                             <label for="message" class="sr-only">Opis wydarzenia</label>
                             <textarea id="message" name="message" rows="4" placeholder="Opisz krótko swoje wydarzenie (rodzaj, data, lokalizacja, szacowana liczba gości)" required class="w-full bg-slate-700 border border-slate-600 rounded-md p-3 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-500"></textarea>
                         </div>
+                        <div class="flex items-start space-x-3">
+                            <input type="checkbox" id="consent" name="consent" required class="mt-1 h-4 w-4 rounded border-gray-300 text-orange-600 focus:ring-orange-500">
+                            <label for="consent" class="text-sm text-slate-400">
+                                Wyrażam zgodę na przetwarzanie moich danych osobowych w celu odpowiedzi na zapytanie. Zapoznałem/am się z <a href="#" id="privacy-link-in-form" class="underline hover:text-orange-500">Polityką Prywatności</a>.
+                            </label>
+                        </div>
                         <button type="submit" class="w-full bg-orange-500 text-white font-bold text-lg py-3 rounded-lg cta-button">
                             WYŚLIJ ZAPYTANIE I ODBIERZ WYCENĘ
                         </button>
@@ -475,6 +478,17 @@
             </div>
         </div>
     </div>
+    
+    <!-- Cookie Consent Banner -->
+    <div id="cookie-banner" class="hidden fixed bottom-0 left-0 right-0 bg-slate-800 border-t border-slate-700 p-4 z-50 transition-transform duration-300 transform translate-y-full">
+        <div class="container mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p class="text-sm text-slate-300 text-left">Ta strona wykorzystuje pliki cookies w celu zapewnienia najlepszej jakości usług. Kontynuując, zgadzasz się na ich użycie. <a href="#" id="privacy-link-in-cookie" class="underline hover:text-orange-500">Dowiedz się więcej</a>.</p>
+            <div class="flex gap-4 flex-shrink-0">
+                <button id="accept-cookies" class="bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-semibold hover:bg-blue-700">Akceptuję</button>
+                <button id="reject-cookies" class="bg-slate-600 text-white px-4 py-2 rounded-md text-sm font-semibold hover:bg-slate-700">Blokuj</button>
+            </div>
+        </div>
+    </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -510,7 +524,6 @@
                 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                     anchor.addEventListener('click', function (e) {
                         const targetId = this.getAttribute('href');
-                        // FIX: Only prevent default and scroll if href is a valid selector for an element on the page
                         if (targetId && targetId.length > 1) {
                             e.preventDefault();
                             const targetElement = document.querySelector(targetId);
@@ -540,29 +553,77 @@
                 // --- Obsługa formularza kontaktowego ---
                 const contactForm = document.getElementById('contact-form');
                 const successMessage = document.getElementById('success-message');
+                // WAŻNE: Poniższy URL należy zastąpić własnym adresem URL skryptu Google Apps Script.
+                // Instrukcja:
+                // 1. Otwórz Arkusze Google i utwórz nowy, pusty arkusz.
+                // 2. Wejdź w Rozszerzenia > Apps Script.
+                // 3. Wklej poniższy kod do edytora skryptu, zastępując istniejącą zawartość:
+                /*
+                function doPost(e) {
+                  try {
+                    var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+                    var headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
+                    var newRow = headers.map(function(header) {
+                      return header === 'Timestamp' ? new Date() : e.parameter[header];
+                    });
+                    sheet.appendRow(newRow);
+                    return ContentService.createTextOutput(JSON.stringify({ 'result': 'success' })).setMimeType(ContentService.MimeType.JSON);
+                  } catch (error) {
+                    return ContentService.createTextOutput(JSON.stringify({ 'result': 'error', 'error': error.toString() })).setMimeType(ContentService.MimeType.JSON);
+                  }
+                }
+                */
+                // 4. Zapisz projekt. Kliknij "Wdróż" > "Nowe wdrożenie".
+                // 5. Wybierz typ "Aplikacja internetowa". W polu "Kto ma dostęp" wybierz "Każdy". Kliknij "Wdróż".
+                // 6. Skopiuj wyświetlony "Adres URL aplikacji internetowej" i wklej go poniżej.
+                const googleScriptURL = 'TWOJ_ADRES_URL_SKRYPTU_GOOGLE'; 
+
                 if (contactForm && successMessage) {
                     contactForm.addEventListener('submit', function(e) {
                         e.preventDefault();
-                        contactForm.style.display = 'none';
-                        successMessage.style.display = 'block';
+                        const submitButton = contactForm.querySelector('button[type="submit"]');
+                        submitButton.disabled = true;
+                        submitButton.textContent = 'Wysyłanie...';
+
+                        fetch(googleScriptURL, { method: 'POST', body: new FormData(contactForm)})
+                            .then(response => {
+                                if (response.ok) {
+                                    contactForm.style.display = 'none';
+                                    successMessage.style.display = 'block';
+                                } else {
+                                     throw new Error('Błąd sieci!');
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Błąd podczas wysyłania formularza!', error);
+                                alert('Wystąpił błąd. Spróbuj ponownie.');
+                                submitButton.disabled = false;
+                                submitButton.textContent = 'WYŚLIJ ZAPYTANIE I ODBIERZ WYCENĘ';
+                            });
                     });
                 }
 
                 // --- Logika Popupu Polityki Prywatności ---
                 const privacyLink = document.getElementById('privacy-policy-link');
+                const privacyLinkInForm = document.getElementById('privacy-link-in-form');
+                const privacyLinkInCookie = document.getElementById('privacy-link-in-cookie');
                 const popupOverlay = document.getElementById('privacy-popup-overlay');
                 const closePopupButton = document.getElementById('close-popup-button');
 
-                if (privacyLink && popupOverlay && closePopupButton) {
-                    privacyLink.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        popupOverlay.classList.remove('hidden');
-                    });
+                const openPopup = (e) => {
+                    e.preventDefault();
+                    popupOverlay.classList.remove('hidden');
+                };
 
-                    const closePopup = () => {
-                        popupOverlay.classList.add('hidden');
-                    };
+                const closePopup = () => {
+                    popupOverlay.classList.add('hidden');
+                };
 
+                if (popupOverlay && closePopupButton) {
+                    if(privacyLink) privacyLink.addEventListener('click', openPopup);
+                    if(privacyLinkInForm) privacyLinkInForm.addEventListener('click', openPopup);
+                    if(privacyLinkInCookie) privacyLinkInCookie.addEventListener('click', openPopup);
+                    
                     closePopupButton.addEventListener('click', closePopup);
                     popupOverlay.addEventListener('click', (e) => {
                         if (e.target === popupOverlay) {
@@ -570,6 +631,32 @@
                         }
                     });
                 }
+                
+                // --- Logika Banera Cookies ---
+                const cookieBanner = document.getElementById('cookie-banner');
+                const acceptCookies = document.getElementById('accept-cookies');
+                const rejectCookies = document.getElementById('reject-cookies');
+
+                if (cookieBanner && acceptCookies && rejectCookies) {
+                    if (!localStorage.getItem('cookieConsent')) {
+                        cookieBanner.classList.remove('hidden');
+                         setTimeout(() => {
+                            cookieBanner.style.transform = 'translateY(0)';
+                        }, 100);
+                    }
+
+                    acceptCookies.addEventListener('click', () => {
+                        localStorage.setItem('cookieConsent', 'accepted');
+                        cookieBanner.style.transform = 'translateY(100%)';
+                    });
+
+                    rejectCookies.addEventListener('click', () => {
+                        localStorage.setItem('cookieConsent', 'rejected');
+                        cookieBanner.style.transform = 'translateY(100%)';
+                        // Tutaj można dodać logikę blokowania skryptów analitycznych itp.
+                    });
+                }
+
 
             } catch (error) {
                 console.error("Wystąpił błąd podczas inicjalizacji strony:", error);
