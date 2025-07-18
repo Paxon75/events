@@ -146,12 +146,15 @@
             padding-left: 1.5rem;
             margin-bottom: 1rem;
         }
+        body.menu-open {
+            overflow: hidden;
+        }
     </style>
 </head>
 <body class="antialiased">
 
     <!-- Nagłówek -->
-    <header id="header" class="bg-slate-900/50 backdrop-blur-sm fixed top-0 left-0 right-0 z-40 transition-all duration-300">
+    <header id="header" class="bg-slate-900/50 backdrop-blur-sm fixed top-0 left-0 right-0 z-50 transition-all duration-300">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
             <a href="#" class="text-white" aria-label="Logo Firmy MTM">
                 <svg width="120" height="32" viewBox="0 0 120 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -174,14 +177,17 @@
                 </svg>
             </button>
         </div>
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden fixed top-0 left-0 w-full h-full bg-slate-900 pt-20 z-40">
-            <a href="#uslugi" class="block py-3 px-6 text-slate-300 hover:bg-slate-800">Usługi</a>
-            <a href="#doswiadczenie" class="block py-3 px-6 text-slate-300 hover:bg-slate-800">Doświadczenie</a>
-            <a href="#sprzet" class="block py-3 px-6 text-slate-300 hover:bg-slate-800">Sprzęt</a>
-            <a href="#kontakt" class="block py-4 px-6 text-center bg-blue-600 text-white font-semibold">Szybka Wycena</a>
-        </div>
     </header>
+    
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden fixed top-0 left-0 w-full h-full bg-slate-900/95 backdrop-blur-sm pt-24 p-6 z-40">
+        <nav class="flex flex-col items-center justify-center h-full space-y-6">
+            <a href="#uslugi" class="text-2xl text-slate-300 hover:text-orange-500 transition">Usługi</a>
+            <a href="#doswiadczenie" class="text-2xl text-slate-300 hover:text-orange-500 transition">Doświadczenie</a>
+            <a href="#sprzet" class="text-2xl text-slate-300 hover:text-orange-500 transition">Sprzęt</a>
+            <a href="#kontakt" class="text-2xl text-slate-300 hover:text-orange-500 transition">Kontakt</a>
+        </nav>
+    </div>
 
     <main>
         <!-- Sekcja Hero z Wideo -->
@@ -427,7 +433,7 @@
                 <ol>
                     <li>przetwarzane zgodnie z prawem,</li>
                     <li>zbierane dla oznaczonych, zgodnych z prawem celów i niepoddawane dalszemu przetwarzaniu niezgodnemu z tymi celami,</li>
-                    <li>merytorycznie poprawne i adekwatne w stosunku do celów, w jakich są przetwarzane oraz przechowywane w postaci umożliwiającej identyfikację osób, których dotyczą, nie dłużej niż jest to niezbędne do osiągnięcia celu przetwarzania.</li>
+                    <li>merytorycznie poprawne i adekwatne w stosunku do celów, w jakich są przetwarzane oraz przechowywane w postaci umożliwiającej identyfikację osób, których dotyczą, nie dłużej niż jest to niezbędne do osiągniecia celu przetwarzania.</li>
                 </ol>
                 <h3>§ 2. RODZAJ PRZETWARZANYCH DANYCH OSOBOWYCH, CEL I ZAKRES ZBIERANIA DANYCH</h3>
                 <p>1. Dane osobowe Usługobiorców, zbierane są w przypadku:</p>
@@ -486,6 +492,7 @@
                         openIcon.classList.toggle('hidden');
                         closeIcon.classList.toggle('hidden');
                         mobileMenuButton.setAttribute('aria-expanded', String(!isExpanded));
+                        document.body.classList.toggle('menu-open');
                     };
 
                     mobileMenuButton.addEventListener('click', toggleMenu);
