@@ -560,21 +560,30 @@
                         submitButton.disabled = true;
                         submitButton.textContent = 'Wysyłanie...';
 
-                        fetch(googleScriptURL, { method: 'POST', body: new FormData(contactForm)})
-                            .then(response => {
-                                if (response.ok) {
-                                    contactForm.style.display = 'none';
-                                    successMessage.style.display = 'block';
-                                } else {
-                                     throw new Error('Błąd sieci!');
-                                }
-                            })
-                            .catch(error => {
-                                console.error('Błąd podczas wysyłania formularza!', error);
-                                alert('Wystąpił błąd. Spróbuj ponownie.');
+                        fetch(googleScriptURL, { 
+                            method: 'POST', 
+                            body: new FormData(contactForm),
+                            mode: 'no-cors' // FIX for CORS error
+                        })
+                        .then(response => {
+                            // Since it's no-cors, we can't read the response, but we can assume success if no network error was thrown
+                            contactForm.style.display = 'none';
+                            successMessage.style.display = 'block';
+
+                            setTimeout(() => {
+                                successMessage.style.display = 'none';
+                                contactForm.style.display = 'block';
+                                contactForm.reset();
                                 submitButton.disabled = false;
                                 submitButton.textContent = 'WYŚLIJ ZAPYTANIE I ODBIERZ WYCENĘ';
-                            });
+                            }, 3000);
+                        })
+                        .catch(error => {
+                            console.error('Błąd podczas wysyłania formularza!', error);
+                            alert('Wystąpił błąd. Spróbuj ponownie.');
+                            submitButton.disabled = false;
+                            submitButton.textContent = 'WYŚLIJ ZAPYTANIE I ODBIERZ WYCENĘ';
+                        });
                     });
                 }
 
